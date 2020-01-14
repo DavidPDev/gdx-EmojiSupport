@@ -1,6 +1,10 @@
 # gdx-EmojiSupport
 LibGDX Emoji support (glyph's injection "hack")
 
+<p align="center">
+  <img src="Readme.md.Images/screen1.JPG" width="360">
+</p>
+
 # Usage:
 1) Just drop the EmojiSupport.java into your project
 2) Copy the emoji atlas files into your assets folder
