@@ -44,6 +44,7 @@ is replaced by a char 0xB001 [one char] that points to its emoji Glyph texture r
  - Text setColor() functions not supported (only in b&w emojis).
  
 # To Do work:
+ - Not tested in TextAreas.
  - Flags emojis and some other emojis are missing
  - Not supported skin-tone modifiers
  - Not tested in iOS (RoboVM)
