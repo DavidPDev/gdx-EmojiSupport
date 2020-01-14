@@ -62,4 +62,33 @@ is replaced by a char 0xB001 [one char] that points to its emoji Glyph texture r
  Emoji images source : https://github.com/stv0g/unicode-emoji
  
  Inspirated in : https://github.com/taluks/libgdx-emodji
+ 
+# Color or B&W emojis
+<p align="center">
+  <img src="Readme.md.Images/screen2.JPG"  width="360">
+</p>
+ 
+# Linear (anti-aliasing) or Nearest Filter
+<p align="center">
+  <img src="Readme.md.Images/screen3.JPG" width="360">
+</p>
+
+# Emojis collections
+Color Emojis 25x25
+https://github.com/stv0g/unicode-emoji/tree/master/apple
+
+Packed with TexturePacker : 821 emojis , 1.32 Mb size
+
+<p align="center">
+  <img src="Readme.md.Images/screen4.PNG">
+</p>
+
+Black and White Emojis 25x25 
+https://github.com/stv0g/unicode-emoji/tree/master/symbola
+
+Packed with TexturePacker : 789 emojis , 0.36 Mb size
+
+<p align="center">
+  <img src="Readme.md.Images/screen5.PNG">
+</p>
 
