@@ -1,5 +1,5 @@
 # gdx-EmojiSupport
-LibGDX Emoji support (glyph's injection "hack")
+LibGDX Emoji support (glyphs injection technique)
 
 <p align="center">
   <img src="Readme.md.Images/screen1.JPG" width="360">
@@ -25,7 +25,7 @@ LibGDX Emoji support (glyph's injection "hack")
 # Description of the problem:
 Current limitation: The Glyph class uses a char as index so should need a lot of work
 to change all the logic (ex: line-breaks) to use multi-chars (unicode emojis).
-So the solution is to "inject" new Gliphs (from another Texture page) to the
+So the solution is to "inject" new Glyphs (from another Texture page) to the
 current BitmapFont using a special char index ( > 0xB000).
 When a string includes an Emoji Code, for example: 😎 (\ud83d\ude0e) [two chars]
 is replaced by a char 0xB001 [one char] that points to its emoji Glyph texture region.
