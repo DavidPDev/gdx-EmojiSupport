@@ -63,7 +63,11 @@ is replaced by a char 0xB001 [one char] that points to its emoji Glyph texture r
  Emoji images source : https://github.com/stv0g/unicode-emoji
  
  Inspirated in : https://github.com/taluks/libgdx-emodji
- 
+
+# CHANGELOG
+  - v.1.1 - Support for multi pages emojis (bugfix)
+  - v.1.0 - Initial release
+  
 # Color or B&W emojis
 <p align="center">
   <img src="Readme.md.Images/screen2.JPG"  width="360">
