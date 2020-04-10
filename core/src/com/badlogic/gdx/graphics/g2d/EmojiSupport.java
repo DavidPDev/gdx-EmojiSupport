@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.StringBuilder;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /* Description of the problem:
@@ -50,19 +52,27 @@ import java.util.HashMap;
 *  ...
 *  // Filter/translate emojis before display
 *  Label label1 = new Label(emojiSupport.FilterEmojis(str), skin);
+*
+* CHANGELOG
+*  - v.1.1 - Support for multi pages emojis (bugfix)
+*  - v.1.0 - Initial release
 */
 
 public class EmojiSupport
 {
+    private final static String VERSION = "1.1";    // Current version of EmojiSupport helper
+
     public final static char START_CHAR = 0xB000;	// Starting replacement-chars (very rarely used range)
 
     public class EmojiRegionIndex {
-        int index;
-        TextureAtlas.AtlasRegion atlasRegion;
-        EmojiRegionIndex (int i, TextureAtlas.AtlasRegion al) { index=i; atlasRegion=al; }
+        int index;                              // Index starting from START_CHAR
+        int page;                               // Multiple pages of emojis
+        TextureAtlas.AtlasRegion atlasRegion;   // Region data
+        EmojiRegionIndex (int i, int p, TextureAtlas.AtlasRegion al) { index=i; page=p; atlasRegion=al; }
     }
 
     public TextureAtlas textureAtlas;                   // Emojis texture atlas
+    public ArrayList<Texture> textures;                 // If multiple pages of emojis
     public HashMap<Integer, EmojiRegionIndex> regions;  // Maps unicode emoji -> injected index
 
     public void Load (FileHandle fileHandle) {
@@ -71,14 +81,24 @@ public class EmojiSupport
     }
     public void Load (FileHandle fileHandle, Texture.TextureFilter textureFilter) {
         textureAtlas= new TextureAtlas(fileHandle);
-        textureAtlas.getTextures().first().setFilter(textureFilter, textureFilter);
+        textures= new ArrayList<>();
+        for (Texture t : textureAtlas.getTextures()) {
+            t.setFilter(textureFilter, textureFilter);
+            textures.add(t);
+        }
 
         regions= new HashMap<Integer, EmojiRegionIndex>();
         Array<TextureAtlas.AtlasRegion> regs= textureAtlas.getRegions();
         for (int i=0; i<regs.size; i++) {
             try {
                 int unicodeCode = Integer.parseInt(regs.get(i).name, 16);
-                regions.put(unicodeCode, new EmojiRegionIndex(i, regs.get(i)));
+                int page=0;
+                if (textures.size()>1) {    // Multi pages emojis, we must find the page where it's located
+                    for (int j=0; j<textures.size(); j++) {
+                        if (textures.get(j).hashCode()==regs.get(i).texture.hashCode()) { page=j; break; }
+                    }
+                }
+                regions.put(unicodeCode, new EmojiRegionIndex(i, page, regs.get(i)));
             }
             catch (Exception e) {
                 // Maybe error in name (not hex integer)
@@ -89,10 +109,10 @@ public class EmojiSupport
     public void AddEmojisToFont (BitmapFont bitmapFont) {
         // 1- Add New TextureRegion
         Array<TextureRegion> regs= bitmapFont.getRegions();
-        regs.add(textureAtlas.getRegions().get(0));
+        int pageLast= regs.size;
+        for (Texture t: textures) regs.add (new TextureAtlas.AtlasRegion(t, 0,0, t.getWidth(), t.getHeight()));
 
         // 2- Add all emoji glyphs to font
-        int page= regs.size-1;
         int size= (int)(bitmapFont.getData().lineHeight/bitmapFont.getData().scaleY);
         for (EmojiRegionIndex entry : regions.values()) {
             char ch= (char)(START_CHAR + entry.index);
@@ -113,7 +133,7 @@ public class EmojiSupport
                 glyph.xadvance = size;
                 glyph.kerning = null;
                 glyph.fixedWidth = true;
-                glyph.page = page;
+                glyph.page = pageLast + entry.page;
                 bitmapFont.getData().setGlyph(ch,glyph);
             }
         }
