@@ -13,7 +13,7 @@ LibGDX Emoji support (glyphs injection technique)
 ...
  EmojiSupport emojiSupport;   // global instance
  ...
- // Create instance, load emjis and add to existing font(s)
+ // Create instance, load emojis and add to existing font(s)
  emojiSupport= new EmojiSupport();
  emojiSupport.Load(Gdx.files.internal("data/emojis25.atlas"));
  emojiSupport.AddEmojisToFont(skin.getFont("default-font"));
@@ -37,6 +37,7 @@ is replaced by a char 0xB001 [one char] that points to its emoji Glyph texture r
  - You can use emojis at greater or lower resolutions (will scale to the font size)
  - No cpu-cost in runtime (it's exactly the same as any other char)
  - Also supported in FreeType run-time generated fonts
+ - Supports multi-pages emojis (emoji atlas with more than one png).
 
 # Drawbacks:
  - Always need to call to FilterEmojis to translate double-char codes (unicode) to 0xB000+i chars
