@@ -54,13 +54,14 @@ import java.util.HashMap;
 *  Label label1 = new Label(emojiSupport.FilterEmojis(str), skin);
 *
 * CHANGELOG
+*  - v.1.2 - Minor change in Load(). ".texture" (direct access to property) -> ".getTexture()" (use of getter)
 *  - v.1.1 - Support for multi pages emojis (bugfix)
 *  - v.1.0 - Initial release
 */
 
 public class EmojiSupport
 {
-    private final static String VERSION = "1.1";    // Current version of EmojiSupport helper
+    private final static String VERSION = "1.2";    // Current version of EmojiSupport helper
 
     public final static char START_CHAR = 0xB000;	// Starting replacement-chars (very rarely used range)
 
@@ -95,7 +96,7 @@ public class EmojiSupport
                 int page=0;
                 if (textures.size()>1) {    // Multi pages emojis, we must find the page where it's located
                     for (int j=0; j<textures.size(); j++) {
-                        if (textures.get(j).hashCode()==regs.get(i).texture.hashCode()) { page=j; break; }
+                        if (textures.get(j).hashCode()==regs.get(i).getTexture().hashCode()) { page=j; break; }
                     }
                 }
                 regions.put(unicodeCode, new EmojiRegionIndex(i, page, regs.get(i)));
