@@ -38,6 +38,7 @@ is replaced by a char 0xB001 [one char] that points to its emoji Glyph texture r
  - No cpu-cost in runtime (it's exactly the same as any other char)
  - Also supported in FreeType run-time generated fonts
  - Supports multi-pages emojis (emoji atlas with more than one png).
+ - Tested in iOS (RoboVM).
 
 # Drawbacks:
  - Always need to call to FilterEmojis to translate double-char codes (unicode) to 0xB000+i chars
@@ -48,7 +49,6 @@ is replaced by a char 0xB001 [one char] that points to its emoji Glyph texture r
  - Not tested in TextAreas.
  - Flags emojis and some other emojis are missing
  - Not supported skin-tone modifiers
- - Not tested in iOS (RoboVM)
 
 # USEFUL LINKS:
  All Unicode chars : https://en.wikipedia.org/wiki/List_of_Unicode_characters
